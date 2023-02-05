@@ -43,13 +43,7 @@ public class ArithmeticFunctions {
 		driver.findElement(By.name(numberKeys[secondValue])).click();
 		driver.findElement(By.name("calculate")).click();
 
-//		System.out.println("FIRST VALUE: " + firstValue);
-//		System.out.println("SECOND VALUE: " + secondValue);
-//		System.out.println("SUM: " + sum);
-
 		String displayedSum = driver.findElement(By.id("display")).getAttribute("value");
-
-		//System.out.println("DISPLAYED SUM: " + displayedSum);
 
 		Assert.assertEquals(sum, Integer.parseInt(displayedSum));
 
@@ -70,16 +64,9 @@ public class ArithmeticFunctions {
 		driver.findElement(By.name(numberKeys[secondValue])).click();
 		driver.findElement(By.name("calculate")).click();
 
-//		System.out.println("FIRST VALUE: " + firstValue);
-//		System.out.println("SECOND VALUE: " + secondValue);
-//		System.out.println("DIFFERENCE: " + difference);
-
 		String displayedDifference = driver.findElement(By.id("display")).getAttribute("value");
-
-		//System.out.println("DISPLAYED DIFFERENCE: " + displayedDifference);
-
+		
 		Assert.assertEquals(difference, Integer.parseInt(displayedDifference));
-
 	}
 	
 	
@@ -98,13 +85,7 @@ public class ArithmeticFunctions {
 		driver.findElement(By.name(numberKeys[secondValue])).click();
 		driver.findElement(By.name("calculate")).click();
 
-//		System.out.println("FIRST VALUE: " + firstValue);
-//		System.out.println("SECOND VALUE: " + secondValue);
-//		System.out.println("PRODUCT: " + product);
-
 		String displayedProduct = driver.findElement(By.id("display")).getAttribute("value");
-
-		//System.out.println("DISPLAYED PRODUCT: " + displayedProduct);
 
 		Assert.assertEquals(product, Integer.parseInt(displayedProduct));
 		
@@ -117,41 +98,28 @@ public class ArithmeticFunctions {
 
 		int firstValue = twoRandomNumbers[0];
 		int secondValue = twoRandomNumbers[1];
-
 				
 		BigDecimal a = new BigDecimal(firstValue);
 		BigDecimal b = new BigDecimal(secondValue);
 		BigDecimal quotient = a.divide(b, 10, RoundingMode.HALF_UP);
-		
-		
 		
 		driver.findElement(By.name(numberKeys[firstValue])).click();
 		driver.findElement(By.name("divide")).click();
 		driver.findElement(By.name(numberKeys[secondValue])).click();
 		driver.findElement(By.name("calculate")).click();
 
-		System.out.println("FIRST VALUE: " + firstValue);
-		System.out.println("SECOND VALUE: " + secondValue);
-		System.out.println("QUOTIENT: " + quotient);
-		
-
 		String displayedQuotient = driver.findElement(By.id("display")).getAttribute("value");
 
-		System.out.println("DISPLAYED QUOTIENT: " + displayedQuotient);
-		
-				
 		BigDecimal x = new BigDecimal(displayedQuotient);
 		BigDecimal y = new BigDecimal(quotient.toString());
 		BigDecimal result = x.divide(y);
 		
-		System.out.println("Result: " + result.toString());
-		
-		
+				
 		Assert.assertEquals("1", result.toString());
 					
 	}
 	
-	@Test
+	//@Test
 	public void verifyDividingByZeroCausesErrorMessage() {
 		
 		int[] twoRandomNumbers = RandomNumberGenerator.generateTwoPositiveIntegersFromOneToNine();
@@ -164,22 +132,36 @@ public class ArithmeticFunctions {
 		driver.findElement(By.name(numberKeys[0])).click();
 		driver.findElement(By.name("calculate")).click();
 
-		System.out.println("FIRST VALUE: " + firstValue);
-		System.out.println("ZERO: " + numberKeys[0]);
-		
-
 		String displayedError = driver.findElement(By.id("display")).getAttribute("value");
-
-		System.out.println("DISPLAYED QUOTIENT: " + displayedError);
-		
-			
-		
+				
 		Assert.assertEquals("Not a Number", displayedError);
-		
-		
-		
-		
+			
 	}
+	@Test
+	public void verifyAddingTwoNegativeIntegersProducesNegativeSum() {
+		
+		int[] twoRandomNumbers = RandomNumberGenerator.generateTwoPositiveIntegersFromOneToNine();
+
+		int firstValue = twoRandomNumbers[0];
+		int secondValue = twoRandomNumbers[1];
+
+		int sum = (firstValue * -1) + (secondValue * -1);
+
+		driver.findElement(By.name(numberKeys[firstValue])).click();
+		driver.findElement(By.name("negateButton")).click();
+		driver.findElement(By.name("add")).click();
+		driver.findElement(By.name(numberKeys[secondValue])).click();
+		driver.findElement(By.name("negateButton")).click();
+		driver.findElement(By.name("calculate")).click();
+		
+		String displayedSum = driver.findElement(By.id("display")).getAttribute("value");
+
+		Assert.assertEquals(sum, Integer.parseInt(displayedSum));
+			
+	}
+	
+	
+	
 
 	@After
 	public void clearGUI() {

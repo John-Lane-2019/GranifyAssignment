@@ -20,8 +20,6 @@ public class RandomNumberGenerator {
 		twoPositiveIntegers[1] = (int) y;
 		
 		
-		//System.out.println(Arrays.toString(twoPositiveIntegers));
-		
 		return twoPositiveIntegers;
 		
 	} 

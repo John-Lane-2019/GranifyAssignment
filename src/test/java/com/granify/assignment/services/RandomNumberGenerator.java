@@ -6,10 +6,28 @@ public class RandomNumberGenerator {
 		// TODO Auto-generated constructor stub
 	}
 	
-	public static int[] generateTwoPositiveIntegers() {
+	public static int[] generateTwoPositiveIntegersFromZeroToNine() {
 		
 		int max = 9;
 		int min = 0;
+		
+		double x = Math.random()*(max - min + 1)+ min; 
+		double y = Math.random()*(max - min + 1)+ min;
+		
+		int[] twoPositiveIntegers = new int[2];
+		
+		twoPositiveIntegers[0] = (int) x;
+		twoPositiveIntegers[1] = (int) y;
+		
+		
+		return twoPositiveIntegers;
+		
+	} 
+	
+public static int[] generateTwoPositiveIntegersFromOneToNine() {
+		
+		int max = 9;
+		int min = 1;
 		
 		double x = Math.random()*(max - min + 1)+ min; 
 		double y = Math.random()*(max - min + 1)+ min;

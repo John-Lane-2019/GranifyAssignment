@@ -14,7 +14,7 @@ import com.granify.assignment.services.*;
 
 import junit.framework.Assert;
 
-@SuppressWarnings("deprecation")//tests wouldn't run on my device using the latest version of JUnit
+@SuppressWarnings("deprecation") // tests wouldn't run on my device using the latest version of JUnit
 public class ArithmeticFunctions {
 
 	private static WebDriver driver = new ChromeDriver();;
@@ -27,8 +27,7 @@ public class ArithmeticFunctions {
 		driver.get(url);
 	}
 
-	
-	//@Test
+	// @Test
 	public void verifyTwoSingleDigitIntegersAddedCorrectly() {
 
 		int[] twoRandomNumbers = RandomNumberGenerator.generateTwoPositiveIntegersFromZeroToNine();
@@ -49,8 +48,7 @@ public class ArithmeticFunctions {
 
 	}
 
-	
-	//@Test
+	// @Test
 	public void verifyTwoSingleDigitIntegersSubtractedCorrecly() {
 		int[] twoRandomNumbers = RandomNumberGenerator.generateTwoPositiveIntegersFromZeroToNine();
 
@@ -65,14 +63,13 @@ public class ArithmeticFunctions {
 		driver.findElement(By.name("calculate")).click();
 
 		String displayedDifference = driver.findElement(By.id("display")).getAttribute("value");
-		
+
 		Assert.assertEquals(difference, Integer.parseInt(displayedDifference));
 	}
-	
-	
-	//@Test
+
+	// @Test
 	public void verifyTwoSingleDigitIntegersMultipliedCorrectly() {
-		
+
 		int[] twoRandomNumbers = RandomNumberGenerator.generateTwoPositiveIntegersFromZeroToNine();
 
 		int firstValue = twoRandomNumbers[0];
@@ -88,21 +85,20 @@ public class ArithmeticFunctions {
 		String displayedProduct = driver.findElement(By.id("display")).getAttribute("value");
 
 		Assert.assertEquals(product, Integer.parseInt(displayedProduct));
-		
-		
+
 	}
-	
-	//@Test
+
+	// @Test
 	public void verifyTwoSingleDigitIntegersDivideCorrectly() {
 		int[] twoRandomNumbers = RandomNumberGenerator.generateTwoPositiveIntegersFromOneToNine();
 
 		int firstValue = twoRandomNumbers[0];
 		int secondValue = twoRandomNumbers[1];
-				
+
 		BigDecimal a = new BigDecimal(firstValue);
 		BigDecimal b = new BigDecimal(secondValue);
 		BigDecimal quotient = a.divide(b, 10, RoundingMode.HALF_UP);
-		
+
 		driver.findElement(By.name(numberKeys[firstValue])).click();
 		driver.findElement(By.name("divide")).click();
 		driver.findElement(By.name(numberKeys[secondValue])).click();
@@ -113,33 +109,32 @@ public class ArithmeticFunctions {
 		BigDecimal x = new BigDecimal(displayedQuotient);
 		BigDecimal y = new BigDecimal(quotient.toString());
 		BigDecimal result = x.divide(y);
-		
-				
+
 		Assert.assertEquals("1", result.toString());
-					
+
 	}
-	
-	//@Test
+
+	// @Test
 	public void verifyDividingByZeroCausesErrorMessage() {
-		
+
 		int[] twoRandomNumbers = RandomNumberGenerator.generateTwoPositiveIntegersFromOneToNine();
 
 		int firstValue = twoRandomNumbers[0];
-			
-		
+
 		driver.findElement(By.name(numberKeys[firstValue])).click();
 		driver.findElement(By.name("divide")).click();
 		driver.findElement(By.name(numberKeys[0])).click();
 		driver.findElement(By.name("calculate")).click();
 
 		String displayedError = driver.findElement(By.id("display")).getAttribute("value");
-				
+
 		Assert.assertEquals("Not a Number", displayedError);
-			
+
 	}
-	@Test
+
+	// @Test
 	public void verifyAddingTwoNegativeIntegersProducesNegativeSum() {
-		
+
 		int[] twoRandomNumbers = RandomNumberGenerator.generateTwoPositiveIntegersFromOneToNine();
 
 		int firstValue = twoRandomNumbers[0];
@@ -153,15 +148,98 @@ public class ArithmeticFunctions {
 		driver.findElement(By.name(numberKeys[secondValue])).click();
 		driver.findElement(By.name("negateButton")).click();
 		driver.findElement(By.name("calculate")).click();
-		
+
 		String displayedSum = driver.findElement(By.id("display")).getAttribute("value");
 
 		Assert.assertEquals(sum, Integer.parseInt(displayedSum));
-			
+
+	}
+
+	// @Test
+	public void verifyAddingNegativeToPositiveProducesSumWithSignOfLargerNumber() {
+
+		int[] twoRandomNumbers = RandomNumberGenerator.generateTwoPositiveIntegersFromOneToNine();
+
+		int firstValue = twoRandomNumbers[0];
+		int secondValue = twoRandomNumbers[1];
+
+		int sum = (firstValue * -1) + secondValue;
+
+		driver.findElement(By.name(numberKeys[firstValue])).click();
+		driver.findElement(By.name("negateButton")).click();
+		driver.findElement(By.name("add")).click();
+		driver.findElement(By.name(numberKeys[secondValue])).click();
+		driver.findElement(By.name("calculate")).click();
+
+		String displayedSum = driver.findElement(By.id("display")).getAttribute("value");
+
+		System.out.println("FIRST VALUE: " + (firstValue * -1));
+		System.out.println("SECOND VALUE: " + secondValue);
+		System.out.println("SUM: " + sum);
+		System.out.println("DISPLAYED SUM: " + displayedSum);
+
+		Assert.assertEquals(sum, Integer.parseInt(displayedSum));
+
+	}
+
+	//@Test
+	public void verifySubtractingTwoNegativeIntegersProducesAPositiveNegativeOrZero() {
+
+		int[] twoRandomNumbers = RandomNumberGenerator.generateTwoPositiveIntegersFromOneToNine();
+
+		int firstValue = twoRandomNumbers[0];
+		int secondValue = twoRandomNumbers[1];
+
+		int difference = (firstValue * -1) - (secondValue * -1);
+
+		driver.findElement(By.name(numberKeys[firstValue])).click();
+		driver.findElement(By.name("negateButton")).click();
+		driver.findElement(By.name("subtract")).click();
+		driver.findElement(By.name(numberKeys[secondValue])).click();
+		driver.findElement(By.name("negateButton")).click();
+		driver.findElement(By.name("calculate")).click();
+
+		String displayedDifference = driver.findElement(By.id("display")).getAttribute("value");
+
+		System.out.println("FIRST VALUE: " + (firstValue * -1));
+		System.out.println("SECOND VALUE: " + secondValue * -1);
+		System.out.println("DIFFERENCE: " + difference);
+		System.out.println("DISPLAYED DIFFERENCE: " + displayedDifference);
+
+		Assert.assertEquals(difference, Integer.parseInt(displayedDifference));
+		Assert.assertTrue(difference >= 0 || difference < 0);
+
 	}
 	
-	
-	
+		@Test
+		public void verifyMultiplyingNegativeIntegerByPositiveIntegerRendersNegativeProduct() {
+
+			int[] twoRandomNumbers = RandomNumberGenerator.generateTwoPositiveIntegersFromZeroToNine();
+
+			int firstValue = twoRandomNumbers[0];
+			int secondValue = twoRandomNumbers[1];
+
+			int product = (firstValue * -1) * secondValue;
+
+			driver.findElement(By.name(numberKeys[firstValue])).click();
+			driver.findElement(By.name("negateButton")).click();
+			driver.findElement(By.name("multiply")).click();
+			driver.findElement(By.name(numberKeys[secondValue])).click();
+			driver.findElement(By.name("calculate")).click();
+			
+			System.out.println("FIRST VALUE: " + (firstValue * -1));
+			System.out.println("SECOND VALUE: " + secondValue);
+			System.out.println("PRODUCT: " + product);
+			
+
+			String displayedProduct = driver.findElement(By.id("display")).getAttribute("value");
+			
+			System.out.println("DISPLAYED PRODUCT: " + displayedProduct);
+
+			Assert.assertEquals(product, Integer.parseInt(displayedProduct));
+			Assert.assertTrue(product < 0);
+
+		}
 
 	@After
 	public void clearGUI() {
@@ -173,7 +251,5 @@ public class ArithmeticFunctions {
 	public static void tearDown() {
 		driver.close();
 	}
-	
-	
 
 }

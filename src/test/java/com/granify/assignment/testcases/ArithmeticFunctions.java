@@ -182,7 +182,7 @@ public class ArithmeticFunctions {
 
 	}
 
-	//@Test
+	// @Test
 	public void verifySubtractingTwoNegativeIntegersProducesAPositiveNegativeOrZero() {
 
 		int[] twoRandomNumbers = RandomNumberGenerator.generateTwoPositiveIntegersFromOneToNine();
@@ -210,36 +210,100 @@ public class ArithmeticFunctions {
 		Assert.assertTrue(difference >= 0 || difference < 0);
 
 	}
-	
-		@Test
-		public void verifyMultiplyingNegativeIntegerByPositiveIntegerRendersNegativeProduct() {
 
-			int[] twoRandomNumbers = RandomNumberGenerator.generateTwoPositiveIntegersFromZeroToNine();
+	//@Test
+	public void verifyMultiplyingNegativeIntegerByPositiveIntegerRendersNegativeProduct() {
+
+		int[] twoRandomNumbers = RandomNumberGenerator.generateTwoPositiveIntegersFromOneToNine();
+
+		int firstValue = twoRandomNumbers[0];
+		int secondValue = twoRandomNumbers[1];
+
+		int product = (firstValue * -1) * secondValue;
+
+		driver.findElement(By.name(numberKeys[firstValue])).click();
+		driver.findElement(By.name("negateButton")).click();
+		driver.findElement(By.name("multiply")).click();
+		driver.findElement(By.name(numberKeys[secondValue])).click();
+		driver.findElement(By.name("calculate")).click();
+
+		System.out.println("FIRST VALUE: " + (firstValue * -1));
+		System.out.println("SECOND VALUE: " + secondValue);
+		System.out.println("PRODUCT: " + product);
+
+		String displayedProduct = driver.findElement(By.id("display")).getAttribute("value");
+
+		System.out.println("DISPLAYED PRODUCT: " + displayedProduct);
+
+		Assert.assertEquals(product, Integer.parseInt(displayedProduct));
+		Assert.assertTrue(product < 0);
+
+	}
+
+	//@Test
+	public void verifyMultiplyingTwoNegativeIntegersRendersPositiveProduct() {
+
+		int[] twoRandomNumbers = RandomNumberGenerator.generateTwoPositiveIntegersFromOneToNine();
+
+		int firstValue = twoRandomNumbers[0];
+		int secondValue = twoRandomNumbers[1];
+
+		int product = (firstValue * -1) * (secondValue *-1);
+
+		driver.findElement(By.name(numberKeys[firstValue])).click();
+		driver.findElement(By.name("negateButton")).click();
+		driver.findElement(By.name("multiply")).click();
+		driver.findElement(By.name(numberKeys[secondValue])).click();
+		driver.findElement(By.name("negateButton")).click();
+		driver.findElement(By.name("calculate")).click();
+					
+		System.out.println("FIRST VALUE: " + (firstValue * -1));
+		System.out.println("SECOND VALUE: " + secondValue * -1);
+		System.out.println("PRODUCT: " + product);
+					
+
+		String displayedProduct = driver.findElement(By.id("display")).getAttribute("value");
+					
+		System.out.println("DISPLAYED PRODUCT: " + displayedProduct);
+
+		Assert.assertEquals(product, Integer.parseInt(displayedProduct));
+		Assert.assertTrue(product > 0);
+	}
+	
+	    @Test
+		public void verifyDividingPositiveByNegativeRendersNegativeQuotient() {
+
+			int[] twoRandomNumbers = RandomNumberGenerator.generateTwoPositiveIntegersFromOneToNine();
 
 			int firstValue = twoRandomNumbers[0];
 			int secondValue = twoRandomNumbers[1];
-
-			int product = (firstValue * -1) * secondValue;
+			
+			BigDecimal x = new BigDecimal(firstValue);
+			BigDecimal y = new BigDecimal(secondValue * -1);
+			BigDecimal quotient = x.divide(y);
 
 			driver.findElement(By.name(numberKeys[firstValue])).click();
-			driver.findElement(By.name("negateButton")).click();
-			driver.findElement(By.name("multiply")).click();
+			driver.findElement(By.name("divide")).click();
 			driver.findElement(By.name(numberKeys[secondValue])).click();
+			driver.findElement(By.name("negateButton")).click();
 			driver.findElement(By.name("calculate")).click();
-			
-			System.out.println("FIRST VALUE: " + (firstValue * -1));
-			System.out.println("SECOND VALUE: " + secondValue);
-			System.out.println("PRODUCT: " + product);
-			
+						
+			System.out.println("FIRST VALUE: " + firstValue);
+			System.out.println("SECOND VALUE: " + secondValue * -1);
+			System.out.println("QUOTIENT: " + quotient);
+						
 
-			String displayedProduct = driver.findElement(By.id("display")).getAttribute("value");
+			String displayedQuotient = driver.findElement(By.id("display")).getAttribute("value");
+						
+			System.out.println("DISPLAYED QUOTIENT: " + displayedQuotient);
 			
-			System.out.println("DISPLAYED PRODUCT: " + displayedProduct);
+			BigDecimal a = new BigDecimal(displayedQuotient);
+			BigDecimal b = new BigDecimal(quotient.toString());
+			BigDecimal result = a.divide(b);
 
-			Assert.assertEquals(product, Integer.parseInt(displayedProduct));
-			Assert.assertTrue(product < 0);
+			Assert.assertEquals("1", result.toString());
 
-		}
+	}
 
 	@After
 	public void clearGUI() {

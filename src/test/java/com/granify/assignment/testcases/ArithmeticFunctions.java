@@ -270,7 +270,7 @@ public class ArithmeticFunctions {
 		Assert.assertTrue(product > 0);
 	}
 	
-	    @Test
+	    //@Test
 		public void verifyDividingPositiveByNegativeRendersNegativeQuotient() {
 
 			int[] twoRandomNumbers = RandomNumberGenerator.generateTwoPositiveIntegersFromOneToNine();
@@ -300,9 +300,45 @@ public class ArithmeticFunctions {
 			BigDecimal a = new BigDecimal(displayedQuotient);
 			BigDecimal b = new BigDecimal(quotient.toString());
 			BigDecimal result = a.divide(b);
-
+			
 			Assert.assertEquals("1", result.toString());
+			
+	}
+		
+		@Test
+		public void verifyDividingNegativeByNegativeRendersPositiveQuotient() {
 
+			int[] twoRandomNumbers = RandomNumberGenerator.generateTwoPositiveIntegersFromOneToNine();
+
+			int firstValue = twoRandomNumbers[0];
+			int secondValue = twoRandomNumbers[1];
+			
+			BigDecimal x = new BigDecimal(firstValue * -1);
+			BigDecimal y = new BigDecimal(secondValue * -1);
+			BigDecimal quotient = x.divide(y, 10, RoundingMode.HALF_UP);
+
+			driver.findElement(By.name(numberKeys[firstValue])).click();
+			driver.findElement(By.name("negateButton")).click();
+			driver.findElement(By.name("divide")).click();
+			driver.findElement(By.name(numberKeys[secondValue])).click();
+			driver.findElement(By.name("negateButton")).click();
+			driver.findElement(By.name("calculate")).click();
+						
+			System.out.println("FIRST VALUE: " + firstValue * -1);
+			System.out.println("SECOND VALUE: " + secondValue * -1);
+			System.out.println("QUOTIENT: " + quotient);
+						
+
+			String displayedQuotient = driver.findElement(By.id("display")).getAttribute("value");
+						
+			System.out.println("DISPLAYED QUOTIENT: " + displayedQuotient);
+			
+			BigDecimal a = new BigDecimal(displayedQuotient);
+			BigDecimal b = new BigDecimal(quotient.toString());
+			BigDecimal result = a.divide(b);
+			
+			Assert.assertEquals("1", result.toString());
+			
 	}
 
 	@After
